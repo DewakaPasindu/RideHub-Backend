@@ -16,6 +16,16 @@ class DatabaseSeeder extends Seeder
 
             SuperAdminSeeder::class,
 
+            CountrySeeder::class,
+            
+            ProvinceSeeder::class,
+            
+            DistrictSeeder::class,
+            
+            CitySeeder::class,
+            
+            AreaSeeder::class,
+
         ]);
     }
 }
