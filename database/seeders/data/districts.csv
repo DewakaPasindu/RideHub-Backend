@@ -1,0 +1,26 @@
+province_code,district_code,name
+WP,COL,Colombo
+WP,GAM,Gampaha
+WP,KLU,Kalutara
+CP,KAN,Kandy
+CP,MAT,Matale
+CP,NEL,Nuwara Eliya
+SP,GAL,Galle
+SP,MTR,Matara
+SP,HAM,Hambantota
+NP,JAF,Jaffna
+NP,KIL,Kilinochchi
+NP,MAN,Mannar
+NP,MUL,Mullaitivu
+NP,VAV,Vavuniya
+EP,TRI,Trincomalee
+EP,BAT,Batticaloa
+EP,AMP,Ampara
+NWP,KUR,Kurunegala
+NWP,PUT,Puttalam
+NCP,ANU,Anuradhapura
+NCP,POL,Polonnaruwa
+UVA,BAD,Badulla
+UVA,MON,Monaragala
+SAB,RAT,Ratnapura
+SAB,KEG,Kegalle

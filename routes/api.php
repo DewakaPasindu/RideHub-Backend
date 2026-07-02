@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Location\LocationController;
 
 
 Route::prefix('v1')->group(function () {
@@ -20,6 +21,24 @@ Route::prefix('v1')->group(function () {
             Route::get('/me', [AuthController::class, 'me']);
 
         });
+
+    });
+
+});
+
+Route::prefix('v1')->group(function () {
+
+    Route::prefix('locations')->group(function () {
+
+        Route::get('/countries', [LocationController::class, 'countries']);
+
+        Route::get('/provinces/{countryUuid}', [LocationController::class, 'provinces']);
+
+        Route::get('/districts/{provinceUuid}', [LocationController::class, 'districts']);
+
+        Route::get('/cities/{districtUuid}', [LocationController::class, 'cities']);
+
+        Route::get('/areas/{cityUuid}', [LocationController::class, 'areas']);
 
     });
 
