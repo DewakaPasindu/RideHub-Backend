@@ -16,6 +16,11 @@ class District extends Model
         'name',
     ];
 
+    public function uniqueIds(): array
+{
+    return ['uuid'];
+}
+
     public function getRouteKeyName(): string
     {
         return 'uuid';

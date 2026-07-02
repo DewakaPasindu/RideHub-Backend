@@ -17,6 +17,10 @@ class Area extends Model
         'latitude',
         'longitude',
     ];
+    public function uniqueIds(): array
+{
+    return ['uuid'];
+}
 
     public function getRouteKeyName(): string
     {

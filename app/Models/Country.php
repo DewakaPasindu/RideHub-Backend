@@ -23,6 +23,11 @@ class Country extends Model
     {
         return 'uuid';
     }
+    
+    public function uniqueIds(): array
+    {
+        return ['uuid'];
+    }
 
     public function provinces()
     {

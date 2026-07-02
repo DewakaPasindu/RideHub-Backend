@@ -19,10 +19,10 @@ class ProvinceSeeder extends Seeder
             ['Southern', 'SP'],
             ['Northern', 'NP'],
             ['Eastern', 'EP'],
-            ['North Western', 'NWP'],
-            ['North Central', 'NCP'],
-            ['Uva', 'UP'],
-            ['Sabaragamuwa', 'SGP'],
+            ['North Western', 'NW'],
+            ['North Central', 'NC'],
+            ['Uva', 'UV'],
+            ['Sabaragamuwa', 'SG'],
         ];
 
         foreach ($provinces as [$name, $code]) {

@@ -17,6 +17,11 @@ class Province extends Model
         'code',
     ];
 
+    public function uniqueIds(): array
+{
+    return ['uuid'];
+}
+
     public function getRouteKeyName(): string
     {
         return 'uuid';

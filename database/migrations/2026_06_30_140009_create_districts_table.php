@@ -19,6 +19,8 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
+            $table->string('code',10)->unique();
+
             $table->string('name');
 
             $table->timestamps();

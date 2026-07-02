@@ -29,6 +29,11 @@ class Address extends Model
         return 'uuid';
     }
 
+    public function uniqueIds(): array
+{
+    return ['uuid'];
+}
+
     public function country()
     {
         return $this->belongsTo(Country::class);
