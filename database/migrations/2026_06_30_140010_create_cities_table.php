@@ -19,7 +19,13 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
+            $table->string('code',20)->unique();
+
             $table->string('name');
+
+            $table->string('postal_code',20)->nullable();
+
+            $table->boolean('is_active')->default(true);
 
             $table->decimal('latitude',10,7)->nullable();
 

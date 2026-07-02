@@ -73,6 +73,7 @@ class DistrictSeeder extends Seeder
                     'uuid' => Str::uuid(),
                     'province_id' => $province->id,
                     'name' => $district['name'],
+                    'is_active' => true,
                 ]
             );
         }

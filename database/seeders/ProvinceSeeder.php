@@ -35,6 +35,7 @@ class ProvinceSeeder extends Seeder
                 [
                     'uuid' => Str::uuid(),
                     'code' => $code,
+                    'is_active' => true,
                 ]
             );
         }

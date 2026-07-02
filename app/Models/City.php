@@ -12,9 +12,19 @@ class City extends Model
 
     protected $fillable = [
         'uuid',
+
         'district_id',
+
+        'code',
+
         'name',
+
+        'postal_code',
+
+        'is_active',
+
         'latitude',
+
         'longitude',
     ];
 

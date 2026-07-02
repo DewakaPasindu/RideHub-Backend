@@ -5,17 +5,15 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CountryResource extends JsonResource
+class CustomerProfileResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
-        return [
-            'uuid' => $this->uuid,
-            'code' => $this->iso2,
-            'name' => $this->name,
-        ];
+        return parent::toArray($request);
     }
 }
