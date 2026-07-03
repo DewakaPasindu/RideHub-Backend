@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Location\LocationController;
 use App\Http\Controllers\Api\V1\Customer\CustomerProfileController;
+use App\Http\Controllers\Api\V1\Driver\DriverApplicationController;
 
 Route::prefix('v1')->group(function () {
 
@@ -56,6 +57,15 @@ Route::prefix('v1')->group(function () {
             Route::get('/profile', [CustomerProfileController::class, 'show']);
             Route::put('/profile', [CustomerProfileController::class, 'update']);
             Route::delete('/profile', [CustomerProfileController::class, 'destroy']);
+
+        });
+
+        Route::prefix('driver')->group(function () {
+
+            Route::post('/application', [DriverApplicationController::class, 'store']);
+            Route::get('/application', [DriverApplicationController::class, 'show']);
+            Route::put('/application', [DriverApplicationController::class, 'update']);
+            Route::delete('/application', [DriverApplicationController::class, 'destroy']);
 
         });
 

@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+use App\Core\Traits\HasUuid;
 
 class CustomerProfile extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasUuid;
 
     /**
      * Mass assignable attributes.
@@ -34,20 +35,7 @@ class CustomerProfile extends Model
         'profile_completed' => 'boolean',
     ];
 
-    /**
-     * Automatically generate UUID.
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($customerProfile) {
-            if (empty($customerProfile->uuid)) {
-                $customerProfile->uuid = (string) Str::uuid();
-            }
-        });
-    }
-
+    
     /**
      * Customer belongs to a user.
      */

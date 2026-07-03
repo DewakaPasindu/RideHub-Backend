@@ -2,48 +2,82 @@
 
 namespace App\Http\Controllers\Api\V1\Driver;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\BaseApiController;
+use App\Http\Requests\Driver\StoreDriverApplicationRequest;
+use App\Http\Requests\Driver\UpdateDriverApplicationRequest;
+use App\Http\Resources\DriverApplicationResource;
+use App\Services\Driver\DriverApplicationService;
 
-class DriverApplicationController extends Controller
+class DriverApplicationController extends BaseApiController
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected DriverApplicationService $driverApplicationService;
+
+    public function __construct(DriverApplicationService $driverApplicationService)
     {
-        //
+        $this->driverApplicationService = $driverApplicationService;
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Submit driver application.
      */
-    public function store(Request $request)
+    public function store(StoreDriverApplicationRequest $request)
     {
-        //
+        $application = $this->driverApplicationService->create(
+            $request->validated()
+        );
+
+        return $this->success(
+            new DriverApplicationResource($application),
+            'Driver application submitted successfully.',
+            201
+        );
     }
 
     /**
-     * Display the specified resource.
+     * Get current user's application.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+        $application = $this->driverApplicationService->get();
+
+        if (!$application) {
+            return $this->error(
+                'Driver application not found.',
+                404
+            );
+        }
+
+        return $this->success(
+            new DriverApplicationResource($application),
+            'Driver application retrieved successfully.'
+        );
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update driver application.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateDriverApplicationRequest $request)
     {
-        //
+        $application = $this->driverApplicationService->update(
+            $request->validated()
+        );
+
+        return $this->success(
+            new DriverApplicationResource($application),
+            'Driver application updated successfully.'
+        );
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete driver application.
      */
-    public function destroy(string $id)
+    public function destroy()
     {
-        //
+        $this->driverApplicationService->delete();
+
+        return $this->success(
+            null,
+            'Driver application deleted successfully.'
+        );
     }
 }

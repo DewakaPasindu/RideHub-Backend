@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\CustomerProfile;
+use App\Models\DriverApplication;
 
 class User extends Authenticatable
 {
@@ -89,4 +90,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(CustomerProfile::class);
     }
+
+    /**
+     * Driver application.
+     */
+    public function driverApplication()
+    {
+        return $this->hasMany(DriverApplication::class);
+}
 }
