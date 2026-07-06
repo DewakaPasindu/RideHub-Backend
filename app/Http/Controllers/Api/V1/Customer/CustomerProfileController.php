@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Customer;
 
 use App\Http\Controllers\Api\BaseApiController;
-use App\Http\Requests\Customer\StoreCustomerProfileRequest;
+// use App\Http\Requests\Customer\StoreCustomerProfileRequest;
 use App\Http\Requests\Customer\UpdateCustomerProfileRequest;
 use App\Http\Resources\CustomerProfileResource;
 use App\Services\Customer\CustomerProfileService;
@@ -20,16 +20,16 @@ class CustomerProfileController extends BaseApiController
     /**
      * Create customer profile.
      */
-    public function store(StoreCustomerProfileRequest $request)
-    {
-        $profile = $this->customerProfileService->create($request->validated());
+    // public function store(StoreCustomerProfileRequest $request)
+    // {
+    //     $profile = $this->customerProfileService->create($request->validated());
 
-        return $this->success(
-            new CustomerProfileResource($profile),
-            'Customer profile created successfully.',
-            201
-        );
-    }
+    //     return $this->success(
+    //         new CustomerProfileResource($profile),
+    //         'Customer profile created successfully.',
+    //         201
+    //     );
+    // }
 
     /**
      * Get authenticated user's profile.
@@ -67,13 +67,13 @@ class CustomerProfileController extends BaseApiController
     /**
      * Delete customer profile.
      */
-    public function destroy()
-    {
-        $this->customerProfileService->delete();
+    // public function destroy()
+    // {
+    //     $this->customerProfileService->delete();
 
-        return $this->success(
-            null,
-            'Customer profile deleted successfully.'
-        );
-    }
+    //     return $this->success(
+    //         null,
+    //         'Customer profile deleted successfully.'
+    //     );
+    // }
 }

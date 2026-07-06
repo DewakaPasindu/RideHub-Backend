@@ -53,10 +53,10 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('customer')->group(function () {
 
-            Route::post('/profile', [CustomerProfileController::class, 'store']);
+            // Route::post('/profile', [CustomerProfileController::class, 'store']);
             Route::get('/profile', [CustomerProfileController::class, 'show']);
             Route::put('/profile', [CustomerProfileController::class, 'update']);
-            Route::delete('/profile', [CustomerProfileController::class, 'destroy']);
+            // Route::delete('/profile', [CustomerProfileController::class, 'destroy']);
 
         });
 

@@ -3,45 +3,69 @@
 namespace App\Services\Auth;
 
 use App\Models\User;
+// use App\Models\CustomerProfile;
+use App\Enums\ActivityAction;
+use App\Services\ActivityLog\ActivityLogService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AuthService
 {
+    public function __construct(
+        private readonly ActivityLogService $activityLogService
+    ) {}
     /**
      * Register User
      */
     public function register(array $data): array
     {
-        $user = User::create([
+        $user = DB::transaction(function () use ($data) {
 
-            'uuid' => Str::uuid(),
+            $user = User::create([
 
-            'first_name' => $data['first_name'],
+                'uuid' => Str::uuid(),
 
-            'last_name' => $data['last_name'],
+                'first_name' => $data['first_name'],
 
-            'email' => $data['email'],
+                'last_name' => $data['last_name'],
 
-            'phone' => $data['phone'] ?? null,
+                'email' => $data['email'],
 
-            'password' => Hash::make($data['password']),
+                'phone' => $data['phone'] ?? null,
 
-            'status' => 'active',
+                'password' => Hash::make($data['password']),
 
-        ]);
+                'status' => 'active',
 
-        $user->assignRole('Customer');
+            ]);
+
+            $user->assignRole('Customer');
+            $user->customerProfile()->create([]);
+
+            $this->activityLogService->log(
+                action: ActivityAction::USER_REGISTERED,
+                description: 'New customer registered.',
+                subject: $user,
+                properties: [
+                    'email' => $user->email,
+                    'role' => 'Customer',
+                ]
+            );
+
+            return $user;
+        });
 
         $token = $user->createToken('RideHub')->plainTextToken;
 
         return [
 
-            'user'=>$user,
+            'user' => $user,
 
-            'token'=>$token,
+            'token' => $token,
 
         ];
+
     }
 
     /**
