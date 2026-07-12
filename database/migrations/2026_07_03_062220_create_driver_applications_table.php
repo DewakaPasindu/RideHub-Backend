@@ -12,7 +12,7 @@ return new class extends Migration
 
             $table->id();
 
-            $table->uuid('uuid')->unique();
+            $table->uuid('uuid');
 
             $table->foreignId('user_id')
                 ->constrained()
@@ -28,15 +28,25 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
 
-            $table->string('nic_passport', 50);
+            $table->string('nic_passport', 50)->unique();
 
             $table->date('date_of_birth');
 
-            $table->string('phone', 20);
+            $table->enum('gender', [
+                'male',
+                'female',
+                'other'
+            ]);
+
+            $table->string('phone', 20)->unique();
 
             $table->text('address');
 
-            $table->string('driving_license_number');
+            $table->string('driving_license_number')->unique();
+
+            $table->json('license_classes')->nullable();
+
+            $table->json('vehicle_types')->nullable();
 
             $table->date('license_expiry_date');
 
@@ -45,6 +55,11 @@ return new class extends Migration
             $table->json('languages')->nullable();
 
             $table->json('skills')->nullable();
+
+            $table->foreignId('area_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
 
             $table->enum('availability', [
                 'full_time',
@@ -57,6 +72,10 @@ return new class extends Migration
             $table->string('nic_document');
 
             $table->string('selfie_photo');
+
+            $table->string('emergency_contact_name')->nullable();
+
+            $table->string('emergency_contact_phone', 20)->nullable();
 
             $table->text('admin_notes')->nullable();
 

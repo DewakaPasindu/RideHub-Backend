@@ -26,8 +26,14 @@ class CustomerProfileResource extends JsonResource
             'emergency_contact_phone' => $this->emergency_contact_phone,
 
             'preferred_language' => $this->preferred_language,
+            
+            'avatar' => $this->avatar
+                ? asset('storage/' . $this->avatar)
+                : null,
 
             'profile_completed' => $this->profile_completed,
+
+            'completion_percentage' => $this->completion_percentage,
 
             'created_at' => optional($this->created_at)->toDateTimeString(),
 

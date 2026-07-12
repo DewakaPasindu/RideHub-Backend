@@ -24,6 +24,7 @@ class CustomerProfile extends Model
         'emergency_contact_name',
         'emergency_contact_phone',
         'preferred_language',
+        'avatar',
         'profile_completed',
     ];
 
@@ -34,6 +35,39 @@ class CustomerProfile extends Model
         'date_of_birth' => 'date',
         'profile_completed' => 'boolean',
     ];
+
+    public function getCompletionPercentageAttribute(): int
+    {
+        $fields = [
+
+            'gender',
+
+            'date_of_birth',
+
+            'nic_passport',
+
+            'emergency_contact_name',
+
+            'emergency_contact_phone',
+
+            'preferred_language',
+
+        ];
+
+        $completed = 0;
+
+        foreach ($fields as $field) {
+
+            if (!empty($this->{$field})) {
+                $completed++;
+            }
+
+        }
+
+        return (int) round(
+            ($completed / count($fields)) * 100
+        );
+    }
 
     
     /**

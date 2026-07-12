@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Requests\Customer\UpdateCustomerProfileRequest;
 use App\Http\Resources\CustomerProfileResource;
 use App\Services\Customer\CustomerProfileService;
+use App\Http\Requests\Customer\UploadCustomerAvatarRequest;
 
 class CustomerProfileController extends BaseApiController
 {
@@ -61,6 +62,21 @@ class CustomerProfileController extends BaseApiController
         return $this->success(
             new CustomerProfileResource($profile),
             'Customer profile updated successfully.'
+        );
+    }
+
+    /**
+     * Upload customer avatar.
+     */
+    public function uploadAvatar(UploadCustomerAvatarRequest $request)
+    {
+        $profile = $this->customerProfileService->uploadAvatar(
+            $request->file('avatar')
+        );
+
+        return $this->success(
+            new CustomerProfileResource($profile),
+            'Avatar uploaded successfully.'
         );
     }
 

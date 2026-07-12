@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\DriverApplication;
 
 class Area extends Model
 {
@@ -30,5 +31,10 @@ class Area extends Model
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function driverApplications()
+    {
+        return $this->hasMany(DriverApplication::class);
     }
 }

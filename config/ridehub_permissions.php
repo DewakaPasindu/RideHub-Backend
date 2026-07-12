@@ -26,11 +26,19 @@ return [
     ],
 
     'driver' => [
+
+        // Customer
         'driver.apply',
         'driver.view',
         'driver.update',
+
+        // Admin
+        'driver.review',
+        'driver.approve',
+        'driver.reject',
         'driver.verify',
         'driver.manage',
+
     ],
 
     'vehicle_owner' => [

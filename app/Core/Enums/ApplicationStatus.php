@@ -13,7 +13,7 @@ enum ApplicationStatus: string
 
     case UNDER_REVIEW = 'under_review';
 
-    case MORE_INFORMATION_REQUIRED = 'more_information_required';
+    case MORE_INFORMATION_REQUIRED = 'more_info_required';
 
     case APPROVED = 'approved';
 

@@ -2,11 +2,12 @@
 
 namespace App\Services\Driver;
 
+use App\Core\Enums\ApplicationStatus;
 use App\Models\DriverApplication;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use App\Core\Enums\ApplicationStatus;
+use Illuminate\Support\Facades\Storage;
 
 class DriverApplicationService
 {
@@ -30,57 +31,68 @@ class DriverApplicationService
             if ($existing) {
                 throw ValidationException::withMessages([
                     'application' => [
-                        'You already have an active driver application.'
-                    ]
+                        'You already have an active driver application.',
+                    ],
                 ]);
             }
 
-            // TODO: Store uploaded files
-            // We'll implement this in the next step.
+            $licenseDocument = $data['license_document']->store(
+                'drivers/licenses',
+                'public'
+            );
+
+            $nicDocument = $data['nic_document']->store(
+                'drivers/nic',
+                'public'
+            );
+
+            $selfiePhoto = $data['selfie_photo']->store(
+                'drivers/selfies',
+                'public'
+            );
 
             return DriverApplication::create([
+
                 'user_id' => $user->id,
 
-                'application_status' => ApplicationStatus::PENDING,
+                'application_status' => ApplicationStatus::PENDING->value,
 
+                // Personal Information
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
-
                 'nic_passport' => $data['nic_passport'],
-
                 'date_of_birth' => $data['date_of_birth'],
-
+                'gender' => $data['gender'],
                 'phone' => $data['phone'],
-
+                'emergency_contact_name' => $data['emergency_contact_name'] ?? null,
+                'emergency_contact_phone' => $data['emergency_contact_phone'] ?? null,
                 'address' => $data['address'],
 
+                // License Details
                 'driving_license_number' => $data['driving_license_number'],
-
+                'license_classes' => $data['license_classes'] ?? null,
                 'license_expiry_date' => $data['license_expiry_date'],
 
+                // Driver Details
+                'vehicle_types' => $data['vehicle_types'] ?? null,
                 'years_of_experience' => $data['years_of_experience'],
-
                 'languages' => $data['languages'] ?? null,
-
                 'skills' => $data['skills'] ?? null,
-
+                'area_id' => $data['area_id'] ?? null,
                 'availability' => $data['availability'],
 
-                // Temporary placeholders
-                'license_document' => '',
-
-                'nic_document' => '',
-
-                'selfie_photo' => '',
+                // Documents
+                'license_document' => $licenseDocument,
+                'nic_document' => $nicDocument,
+                'selfie_photo' => $selfiePhoto,
             ]);
-
         });
     }
 
     /**
      * Get current user's driver application.
      */
-    public function get()
+    public function get(): ?DriverApplication
     {
         return Auth::user()->driverApplication;
     }
@@ -92,54 +104,89 @@ class DriverApplicationService
     {
         $application = Auth::user()->driverApplication;
 
-        if (!$application) {
+        if (! $application) {
             throw ValidationException::withMessages([
                 'application' => [
-                    'Driver application not found.'
-                ]
+                    'Driver application not found.',
+                ],
             ]);
         }
 
         // Prevent updates after approval or rejection
         if (in_array($application->application_status, [
-            ApplicationStatus::APPROVED,
-            ApplicationStatus::REJECTED,
+            ApplicationStatus::APPROVED->value,
+            ApplicationStatus::REJECTED->value,
         ])) {
             throw ValidationException::withMessages([
                 'application' => [
-                    'This application can no longer be updated.'
-                ]
+                    'This application can no longer be updated.',
+                ],
             ]);
         }
 
-        $application->update($data);
+        // TODO:
+        // Handle document replacements here in the next step.
 
+        if (isset($data['license_document'])) {
+
+            if ($application->license_document) {
+                Storage::disk('public')->delete($application->license_document);
+            }
+
+            $data['license_document'] = $data['license_document']->store(
+                'drivers/licenses',
+                'public'
+            );
+        }
+
+        if (isset($data['nic_document'])) {
+
+            if ($application->nic_document) {
+                Storage::disk('public')->delete($application->nic_document);
+            }
+
+            $data['nic_document'] = $data['nic_document']->store(
+                'drivers/nic',
+                'public'
+            );
+        }
+
+        if (isset($data['selfie_photo'])) {
+
+            if ($application->selfie_photo) {
+                Storage::disk('public')->delete($application->selfie_photo);
+            }
+
+            $data['selfie_photo'] = $data['selfie_photo']->store(
+                'drivers/selfies',
+                'public'
+            );
+        }
+
+        $application->update($data);
         return $application->fresh();
     }
 
     /**
-     * Delete current application.
-     */
-    /**
-     * Delete current application.
+     * Delete current driver's application.
      */
     public function delete(): void
     {
         $application = Auth::user()->driverApplication;
 
-        if (!$application) {
+        if (! $application) {
             throw ValidationException::withMessages([
                 'application' => [
-                    'Driver application not found.'
-                ]
+                    'Driver application not found.',
+                ],
             ]);
         }
 
-        if ($application->application_status === ApplicationStatus::APPROVED) {
+        if ($application->application_status === ApplicationStatus::APPROVED->value) {
             throw ValidationException::withMessages([
                 'application' => [
-                    'Approved applications cannot be deleted.'
-                ]
+                    'Approved applications cannot be deleted.',
+                ],
             ]);
         }
 

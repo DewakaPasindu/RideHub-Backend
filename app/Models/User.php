@@ -96,6 +96,6 @@ class User extends Authenticatable
      */
     public function driverApplication()
     {
-        return $this->hasMany(DriverApplication::class);
+        return $this->hasOne(DriverApplication::class);
 }
 }

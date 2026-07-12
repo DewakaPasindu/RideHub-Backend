@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums;
+namespace App\Core\Enums;
 
 enum ActivityAction: string
 {

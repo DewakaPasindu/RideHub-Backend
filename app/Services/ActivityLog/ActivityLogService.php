@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\ActivityLog;
 
-use App\Enums\ActivityAction;
+use App\Core\Enums\ActivityAction;
 use App\Models\ActivityLog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;

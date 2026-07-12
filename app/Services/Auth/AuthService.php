@@ -4,7 +4,7 @@ namespace App\Services\Auth;
 
 use App\Models\User;
 // use App\Models\CustomerProfile;
-use App\Enums\ActivityAction;
+use App\Core\Enums\ActivityAction;
 use App\Services\ActivityLog\ActivityLogService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
