@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\Location\LocationController;
 use App\Http\Controllers\Api\V1\Admin\AdminDriverApplicationController;
 use App\Http\Controllers\Api\V1\Customer\CustomerProfileController;
 use App\Http\Controllers\Api\V1\Driver\DriverApplicationController;
+use App\Http\Controllers\Api\V1\VehicleOwner\VehicleOwnerProfileController;
+use App\Http\Controllers\Api\V1\Admin\VehicleOwnerReviewController;
+use App\Http\Controllers\Api\V1\VehicleOwner\VehicleController;
 
 Route::prefix('v1')->group(function () {
 
@@ -127,7 +130,78 @@ Route::prefix('v1')->group(function () {
                     [AdminDriverApplicationController::class, 'reject']
                 );
 
+                Route::patch(
+                    '/vehicle-owner-profiles/{uuid}/approve',
+                    [VehicleOwnerReviewController::class, 'approve']
+                );
+
+                Route::patch(
+                    '/vehicle-owner-profiles/{uuid}/reject',
+                    [VehicleOwnerReviewController::class, 'reject']
+                );
+
+                Route::patch(
+                    '/vehicle-owner-profiles/{uuid}/more-info',
+                    [VehicleOwnerReviewController::class, 'requestMoreInformation']
+                );
+
             
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Vehicle Owner
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('vehicle-owner')->group(function () {
+
+            Route::post(
+                '/profile',
+                [VehicleOwnerProfileController::class, 'store']
+            );
+
+            Route::get(
+                '/profile',
+                [VehicleOwnerProfileController::class, 'show']
+            );
+
+            Route::put(
+                '/profile',
+                [VehicleOwnerProfileController::class, 'update']
+            );
+
+            /*
+        |--------------------------------------------------------------------------
+        | Vehicles
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/vehicles',
+            [VehicleController::class, 'index']
+        );
+
+        Route::post(
+            '/vehicles',
+            [VehicleController::class, 'store']
+        );
+
+        Route::get(
+            '/vehicles/{vehicle}',
+            [VehicleController::class, 'show']
+        );
+
+        Route::put(
+            '/vehicles/{vehicle}',
+            [VehicleController::class, 'update']
+        );
+
+        Route::delete(
+            '/vehicles/{vehicle}',
+            [VehicleController::class, 'destroy']
+        );
+
         });
 
     });
