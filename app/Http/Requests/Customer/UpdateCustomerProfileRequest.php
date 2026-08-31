@@ -2,28 +2,30 @@
 
 namespace App\Http\Requests\Customer;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCustomerProfileRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determine if the user is authorized.
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->check();
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * Validation rules.
      */
     public function rules(): array
     {
         return [
-            //
+            'gender' => 'sometimes|nullable|in:male,female,other',
+            'date_of_birth' => 'sometimes|nullable|date|before:today',
+            'nic_passport' => 'sometimes|nullable|string|max:50',
+            'emergency_contact_name' => 'sometimes|nullable|string|max:255',
+            'emergency_contact_phone' => 'sometimes|nullable|string|max:20',
+            'preferred_language' => 'sometimes|nullable|string|max:50',
         ];
     }
 }

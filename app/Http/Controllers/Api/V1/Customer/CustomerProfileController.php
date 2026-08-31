@@ -2,48 +2,94 @@
 
 namespace App\Http\Controllers\Api\V1\Customer;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\BaseApiController;
+// use App\Http\Requests\Customer\StoreCustomerProfileRequest;
+use App\Http\Requests\Customer\UpdateCustomerProfileRequest;
+use App\Http\Resources\CustomerProfileResource;
+use App\Services\Customer\CustomerProfileService;
+use App\Http\Requests\Customer\UploadCustomerAvatarRequest;
 
-class CustomerProfileController extends Controller
+class CustomerProfileController extends BaseApiController
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected CustomerProfileService $customerProfileService;
+
+    public function __construct(CustomerProfileService $customerProfileService)
     {
-        //
+        $this->customerProfileService = $customerProfileService;
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create customer profile.
      */
-    public function store(Request $request)
+    // public function store(StoreCustomerProfileRequest $request)
+    // {
+    //     $profile = $this->customerProfileService->create($request->validated());
+
+    //     return $this->success(
+    //         new CustomerProfileResource($profile),
+    //         'Customer profile created successfully.',
+    //         201
+    //     );
+    // }
+
+    /**
+     * Get authenticated user's profile.
+     */
+    public function show()
     {
-        //
+        $profile = $this->customerProfileService->get();
+
+        if (!$profile) {
+            return $this->error(
+                'Customer profile not found.',
+                404
+            );
+        }
+
+        return $this->success(
+            new CustomerProfileResource($profile),
+            'Customer profile retrieved successfully.'
+        );
     }
 
     /**
-     * Display the specified resource.
+     * Update customer profile.
      */
-    public function show(string $id)
+    public function update(UpdateCustomerProfileRequest $request)
     {
-        //
+        $profile = $this->customerProfileService->update($request->validated());
+
+        return $this->success(
+            new CustomerProfileResource($profile),
+            'Customer profile updated successfully.'
+        );
     }
 
     /**
-     * Update the specified resource in storage.
+     * Upload customer avatar.
      */
-    public function update(Request $request, string $id)
+    public function uploadAvatar(UploadCustomerAvatarRequest $request)
     {
-        //
+        $profile = $this->customerProfileService->uploadAvatar(
+            $request->file('avatar')
+        );
+
+        return $this->success(
+            new CustomerProfileResource($profile),
+            'Avatar uploaded successfully.'
+        );
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete customer profile.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+    // public function destroy()
+    // {
+    //     $this->customerProfileService->delete();
+
+    //     return $this->success(
+    //         null,
+    //         'Customer profile deleted successfully.'
+    //     );
+    // }
 }
