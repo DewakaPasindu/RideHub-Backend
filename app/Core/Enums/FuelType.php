@@ -16,6 +16,8 @@ enum FuelType: string
 
     case HYBRID = 'hybrid';
 
+    case PLUG_IN_HYBRID = 'plug_in_hybrid';
+
     case CNG = 'cng';
 
     case LPG = 'lpg';
