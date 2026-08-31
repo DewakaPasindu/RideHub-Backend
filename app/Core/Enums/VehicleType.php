@@ -10,15 +10,21 @@ enum VehicleType: string
 
     case CAR = 'car';
 
+    case SUV = 'suv';
+
     case VAN = 'van';
 
-    case SUV = 'suv';
+    case MINIVAN = 'minivan';
 
     case BUS = 'bus';
 
-    case MOTORBIKE = 'motorbike';
+    case TRUCK = 'truck';
 
-    case THREE_WHEEL = 'three_wheel';
+    case PICKUP = 'pickup';
+
+    case MOTORCYCLE = 'motorcycle';
+
+    case THREE_WHEELER = 'three_wheeler';
 
     case LORRY = 'lorry';
 }

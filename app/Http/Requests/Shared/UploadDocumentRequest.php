@@ -2,28 +2,31 @@
 
 namespace App\Http\Requests\Shared;
 
-use Illuminate\Contracts\Validation\ValidationRule;
+use App\Core\Enums\DocumentType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class UploadDocumentRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return auth()->check();
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'document_type' => [
+                'required',
+                new Enum(DocumentType::class),
+            ],
+
+            'document' => [
+                'required',
+                'file',
+                'max:10240',
+                'mimes:pdf,jpg,jpeg,png',
+            ],
         ];
     }
 }

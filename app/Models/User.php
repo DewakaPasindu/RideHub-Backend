@@ -97,5 +97,10 @@ class User extends Authenticatable
     public function driverApplication()
     {
         return $this->hasOne(DriverApplication::class);
-}
+    }
+
+    public function vehicleOwnerProfile()
+    {
+        return $this->hasOne(VehicleOwnerProfile::class);
+    }
 }
