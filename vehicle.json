@@ -1,0 +1,20 @@
+{
+    "registration_number": "WP-CAB-1234",
+    "make": "Toyota",
+    "model": "Prius",
+    "variant": "S Touring",
+    "manufacturing_year": 2022,
+    "color": "White",
+    "vehicle_type": "car",
+    "fuel_type": "hybrid",
+    "transmission": "automatic",
+    "seating_capacity": 5,
+    "doors": 4,
+    "mileage": 35000,
+    "chassis_number": "JTDBR32E123456789",
+    "engine_number": "2ZR1234567",
+    "vin": "JTDKN3DU0A0123456",
+    "has_ac": true,
+    "has_gps": true,
+    "description": "Well maintained Toyota Prius available for rental."
+}

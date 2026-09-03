@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\V1\Driver\DriverApplicationController;
 use App\Http\Controllers\Api\V1\VehicleOwner\VehicleOwnerProfileController;
 use App\Http\Controllers\Api\V1\Admin\VehicleOwnerReviewController;
 use App\Http\Controllers\Api\V1\VehicleOwner\VehicleController;
+use App\Http\Controllers\Api\V1\VehicleOwner\VehicleDocumentController;
+use App\Http\Controllers\Api\V1\VehicleOwner\VehicleImageController;
 
 Route::prefix('v1')->group(function () {
 
@@ -170,6 +172,58 @@ Route::prefix('v1')->group(function () {
                 '/profile',
                 [VehicleOwnerProfileController::class, 'update']
             );
+
+            /*
+            |--------------------------------------------------------------------------
+            | Vehicle Documents
+            |--------------------------------------------------------------------------
+            */
+
+            Route::prefix('vehicles/{vehicle}/documents')->group(function () {
+
+                Route::get(
+                    '/',
+                    [VehicleDocumentController::class, 'index']
+                );
+
+                Route::post(
+                    '/',
+                    [VehicleDocumentController::class, 'store']
+                );
+
+                Route::delete(
+                    '/{documentUuid}',
+                    [VehicleDocumentController::class, 'destroy']
+                );
+
+            });
+
+            /*
+            |--------------------------------------------------------------------------
+            | Vehicle Images
+            |--------------------------------------------------------------------------
+            */
+
+            Route::prefix('vehicles/{vehicle}/images')->group(function () {
+
+                Route::get(
+                    '/',
+                    [VehicleImageController::class, 'index']
+                );
+
+                Route::post(
+                    '/',
+                    [VehicleImageController::class, 'store']
+                );
+
+                Route::delete(
+                    '/{imageUuid}',
+                    [VehicleImageController::class, 'destroy']
+                );
+
+            });
+
+            
 
             /*
         |--------------------------------------------------------------------------

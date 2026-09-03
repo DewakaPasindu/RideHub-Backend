@@ -18,6 +18,8 @@ enum DocumentType: string
 
     case VEHICLE_REGISTRATION = 'vehicle_registration';
 
+    case VEHICLE_BOOK = 'vehicle_book';
+
     case INSURANCE = 'insurance';
 
     case REVENUE_LICENSE = 'revenue_license';
