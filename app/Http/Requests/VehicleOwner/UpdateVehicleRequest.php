@@ -98,7 +98,7 @@ class UpdateVehicleRequest extends FormRequest
             ],
 
             'mileage' => [
-                'sometimes',
+                'nullable',
                 'integer',
                 'min:0',
             ],
@@ -108,8 +108,7 @@ class UpdateVehicleRequest extends FormRequest
                 'required',
                 'string',
                 'max:100',
-                Rule::unique('vehicles', 'chassis_number')
-                    ->ignore($vehicle?->id),
+                Rule::unique('vehicles', 'chassis_number')->ignore($vehicle?->id),
             ],
 
             'engine_number' => [
@@ -117,16 +116,14 @@ class UpdateVehicleRequest extends FormRequest
                 'required',
                 'string',
                 'max:100',
-                Rule::unique('vehicles', 'engine_number')
-                    ->ignore($vehicle?->id),
+                Rule::unique('vehicles', 'engine_number')->ignore($vehicle?->id),
             ],
 
             'vin' => [
                 'nullable',
                 'string',
                 'max:100',
-                Rule::unique('vehicles', 'vin')
-                    ->ignore($vehicle?->id),
+                Rule::unique('vehicles', 'vin')->ignore($vehicle?->id),
             ],
 
             'has_ac' => [
@@ -142,7 +139,53 @@ class UpdateVehicleRequest extends FormRequest
             'description' => [
                 'nullable',
                 'string',
-                'max:5000',
+                'max:2000',
+            ],
+
+            'price_per_day' => [
+                'sometimes',
+                'required',
+                'numeric',
+                'min:0',
+            ],
+
+            'nearest_town' => [
+                'nullable',
+                'string',
+                'max:100',
+            ],
+
+            'location_lat' => [
+                'nullable',
+                'numeric',
+                'between:-90,90',
+            ],
+
+            'location_lng' => [
+                'nullable',
+                'numeric',
+                'between:-180,180',
+            ],
+
+            'features' => [
+                'nullable',
+                'array',
+            ],
+
+            'images' => [
+                'nullable',
+                'array',
+            ],
+            
+            'available_from' => [
+                'nullable',
+                'date',
+            ],
+            
+            'available_to' => [
+                'nullable',
+                'date',
+                'after_or_equal:available_from',
             ],
         ];
     }

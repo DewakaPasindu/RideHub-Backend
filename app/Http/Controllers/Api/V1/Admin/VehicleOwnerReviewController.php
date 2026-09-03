@@ -24,11 +24,7 @@ class VehicleOwnerReviewController extends BaseApiController
         ReviewVehicleOwnerRequest $request,
         string $uuid
     ): JsonResponse {
-
-        $profile = VehicleOwnerProfile::where(
-            'uuid',
-            $uuid
-        )->firstOrFail();
+        $profile = VehicleOwnerProfile::where('uuid', $uuid)->firstOrFail();
 
         $profile = $this->reviewService->review(
             $request->user(),

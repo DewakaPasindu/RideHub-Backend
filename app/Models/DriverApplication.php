@@ -37,6 +37,12 @@ class DriverApplication extends Model
 
         'area_id',
         'availability',
+        
+        'rating',
+        'review_count',
+        'availability_status',
+        'location_lat',
+        'location_lng',
 
         'license_document',
         'nic_document',
@@ -56,6 +62,11 @@ class DriverApplication extends Model
         'skills' => 'array',
         'license_classes' => 'array',
         'vehicle_types' => 'array',
+        
+        'rating' => 'float',
+        'review_count' => 'integer',
+        'location_lat' => 'float',
+        'location_lng' => 'float',
     ];
 
     protected static function boot()
@@ -67,6 +78,11 @@ class DriverApplication extends Model
                 $application->uuid = (string) Str::uuid();
             }
         });
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
     }
 
     /*
@@ -93,6 +109,11 @@ class DriverApplication extends Model
     public function documents()
     {
         return $this->morphMany(Document::class, 'documentable');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'driver_profile_id');
     }
 
     /*

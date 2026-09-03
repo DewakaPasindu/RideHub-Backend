@@ -65,10 +65,6 @@ class VehicleService
             'vehicleOwnerProfile',
             'reviewer',
             'documents',
-            'images',
-            'pricing',
-            'availability',
-            'insurance',
         ])
         ->where('vehicle_owner_profile_id', $profile->id)
         ->latest()
@@ -89,10 +85,6 @@ class VehicleService
             'vehicleOwnerProfile',
             'reviewer',
             'documents',
-            'images',
-            'pricing',
-            'availability',
-            'insurance',
         ]);
     }
 
@@ -142,10 +134,6 @@ class VehicleService
                 'vehicleOwnerProfile',
                 'reviewer',
                 'documents',
-                'images',
-                'pricing',
-                'availability',
-                'insurance',
             ]);
         });
     }
@@ -161,6 +149,89 @@ class VehicleService
         $this->verifyOwnership($user, $vehicle);
 
         $vehicle->delete();
+    }
+
+    /**
+     * List approved vehicles matching search criteria.
+     */
+    public function listPublic(array $filters)
+    {
+        $query = Vehicle::with(['vehicleOwnerProfile', 'vehicleOwnerProfile.user'])
+            ->where('application_status', 'approved');
+
+        if (!empty($filters['search'])) {
+            $search = $filters['search'];
+            $query->where(function ($q) use ($search) {
+                $q->where('make', 'like', "%{$search}%")
+                  ->orWhere('model', 'like', "%{$search}%")
+                  ->orWhere('color', 'like', "%{$search}%")
+                  ->orWhere('nearest_town', 'like', "%{$search}%");
+            });
+        }
+
+        if (!empty($filters['vehicle_type'])) {
+            $query->where('vehicle_type', $filters['vehicle_type']);
+        }
+
+        if (!empty($filters['nearest_town'])) {
+            $query->where('nearest_town', $filters['nearest_town']);
+        }
+
+        if (!empty($filters['min_seats'])) {
+            $query->where('seating_capacity', '>=', (int)$filters['min_seats']);
+        }
+
+        if (!empty($filters['transmission'])) {
+            $query->where('transmission', $filters['transmission']);
+        }
+
+        if (!empty($filters['fuel_type'])) {
+            $query->where('fuel_type', $filters['fuel_type']);
+        }
+
+        if (isset($filters['has_ac'])) {
+            $query->where('has_ac', filter_var($filters['has_ac'], FILTER_VALIDATE_BOOLEAN));
+        }
+
+        if (!empty($filters['max_price'])) {
+            $query->where('price_per_day', '<=', (float)$filters['max_price']);
+        }
+
+        $sort = $filters['sort'] ?? 'latest';
+        if ($sort === 'price_asc') {
+            $query->orderBy('price_per_day', 'asc');
+        } elseif ($sort === 'price_desc') {
+            $query->orderBy('price_per_day', 'desc');
+        } else {
+            $query->latest();
+        }
+
+        $page = (int)($filters['page'] ?? 1);
+        $perPage = (int)($filters['per_page'] ?? 15);
+
+        return $query->paginate($perPage, ['*'], 'page', $page);
+    }
+
+    /**
+     * Upload documents for a vehicle.
+     */
+    public function uploadDocuments(User $user, Vehicle $vehicle, array $files): Vehicle
+    {
+        $this->verifyOwnership($user, $vehicle);
+
+        if (isset($files['revenue_license_document'])) {
+            $path = $files['revenue_license_document']->store('vehicles/documents', 'public');
+            $vehicle->revenue_license_document = $path;
+        }
+
+        if (isset($files['insurance_card_document'])) {
+            $path = $files['insurance_card_document']->store('vehicles/documents', 'public');
+            $vehicle->insurance_card_document = $path;
+        }
+
+        $vehicle->save();
+
+        return $vehicle->fresh();
     }
 
     /**

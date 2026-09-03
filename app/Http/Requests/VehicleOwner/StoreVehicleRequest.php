@@ -18,7 +18,6 @@ class StoreVehicleRequest extends FormRequest
     public function rules(): array
     {
         return [
-
             /*
             |--------------------------------------------------------------------------
             | Basic Vehicle Information
@@ -28,7 +27,7 @@ class StoreVehicleRequest extends FormRequest
             'registration_number' => [
                 'required',
                 'string',
-                'max:30',
+                'max:50',
                 'unique:vehicles,registration_number',
             ],
 
@@ -145,7 +144,7 @@ class StoreVehicleRequest extends FormRequest
 
             /*
             |--------------------------------------------------------------------------
-            | Features
+            | Features & Specifications
             |--------------------------------------------------------------------------
             */
 
@@ -161,6 +160,51 @@ class StoreVehicleRequest extends FormRequest
                 'nullable',
                 'string',
                 'max:2000',
+            ],
+
+            'price_per_day' => [
+                'required',
+                'numeric',
+                'min:0',
+            ],
+
+            'nearest_town' => [
+                'nullable',
+                'string',
+                'max:100',
+            ],
+
+            'location_lat' => [
+                'nullable',
+                'numeric',
+                'between:-90,90',
+            ],
+
+            'location_lng' => [
+                'nullable',
+                'numeric',
+                'between:-180,180',
+            ],
+
+            'features' => [
+                'nullable',
+                'array',
+            ],
+
+            'images' => [
+                'nullable',
+                'array',
+            ],
+            
+            'available_from' => [
+                'nullable',
+                'date',
+            ],
+            
+            'available_to' => [
+                'nullable',
+                'date',
+                'after_or_equal:available_from',
             ],
         ];
     }

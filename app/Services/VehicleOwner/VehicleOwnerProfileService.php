@@ -35,7 +35,9 @@ class VehicleOwnerProfileService
             $data['application_status'] =
                 ApplicationStatus::DRAFT->value;
 
-            return VehicleOwnerProfile::create($data);
+            $profile = VehicleOwnerProfile::create($data);
+            $user->assignRole('Vehicle Owner');
+            return $profile;
         });
     }
 

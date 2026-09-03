@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Core\Enums\DocumentType;
-use App\Core\Enums\DocumentStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;

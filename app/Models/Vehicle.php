@@ -42,6 +42,16 @@ class Vehicle extends Model
         'has_gps',
         'description',
 
+        'price_per_day',
+        'nearest_town',
+        'location_lat',
+        'location_lng',
+        'features',
+        'images',
+        'rejection_reason',
+        'available_from',
+        'available_to',
+
         'application_status',
         'verified_at',
         'verified_by',
@@ -56,6 +66,14 @@ class Vehicle extends Model
 
         'has_ac' => 'boolean',
         'has_gps' => 'boolean',
+
+        'price_per_day' => 'decimal:2',
+        'location_lat' => 'float',
+        'location_lng' => 'float',
+        'features' => 'array',
+        'images' => 'array',
+        'available_from' => 'date',
+        'available_to' => 'date',
 
         'vehicle_type' => VehicleType::class,
         'fuel_type' => FuelType::class,
@@ -85,6 +103,7 @@ class Vehicle extends Model
     |--------------------------------------------------------------------------
     | Relationships
     |--------------------------------------------------------------------------
+    |
     */
 
     public function vehicleOwnerProfile()
@@ -108,28 +127,8 @@ class Vehicle extends Model
         return $this->morphMany(Document::class, 'documentable');
     }
 
-    public function images()
+    public function reviews()
     {
-        return $this->hasMany(VehicleImage::class);
-    }
-
-    public function pricing()
-    {
-        return $this->hasOne(VehiclePricing::class);
-    }
-
-    public function availability()
-    {
-        return $this->hasOne(VehicleAvailability::class);
-    }
-
-    public function maintenanceRecords()
-    {
-        return $this->hasMany(VehicleMaintenance::class);
-    }
-
-    public function insurance()
-    {
-        return $this->hasOne(VehicleInsurance::class);
+        return $this->hasMany(Review::class, 'vehicle_id');
     }
 }
